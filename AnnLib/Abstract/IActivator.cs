@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnnLib
 {
-    interface IActivator
+    public interface IActivator
     {
-        double Activation(double value);
+        double Calculate(double value);
         double Gradient(double value);
     }
 }

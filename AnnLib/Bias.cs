@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AnnLib
 {
-    class Bias : Node
+    public class Bias : FirstLayerElement
     {
         #region Fields
 

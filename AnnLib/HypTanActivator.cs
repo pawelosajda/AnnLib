@@ -18,7 +18,7 @@ namespace AnnLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public double Activation(double value)
+        public double Calculate(double value)
         {
             return Math.Tanh(value);
         }
@@ -30,7 +30,7 @@ namespace AnnLib
         /// <returns></returns>
         public double Gradient(double value)
         {
-            double activation = Activation(value);
+            double activation = Calculate(value);
             return 1 - activation * activation;
         }
 

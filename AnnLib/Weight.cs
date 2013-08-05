@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AnnLib
 {
     /// <summary>
-    /// Weight of the connection
+    /// Connection weight
     /// </summary>
-    class Weight
+    public class Weight
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace AnnLib
         /// <summary>
         /// Change of the last correction
         /// </summary>
-        private double change;
+        public double Change;
 
         #endregion
         #region Constructors
@@ -40,7 +40,7 @@ namespace AnnLib
         /// <param name="weight">connection weight</param>
         public Weight(double weight)
         {
-            value = weight;
+            Value = weight;
         }
 
         #endregion
@@ -48,13 +48,13 @@ namespace AnnLib
 
         public void Reset(double weight)
         {
-            change = 0.0;
+            Change = 0.0;
             Value = weight;
         }
 
         public void Correct(double delta)
         {
-            change = delta;
+            Change = delta;
             Value += delta;
         }
 

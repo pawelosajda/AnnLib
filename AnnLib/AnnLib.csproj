@@ -40,16 +40,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IActivator.cs" />
+    <Compile Include="BackPropRequest.cs" />
     <Compile Include="Bias.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="HypTanActivator.cs" />
+    <Compile Include="LayerConnector.cs" />
     <Compile Include="MultilayerPerceptron.cs" />
     <Compile Include="MultilayerPerceptronGenerator.cs" />
     <Compile Include="NetworkStructure.cs" />
     <Compile Include="Neuron.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="FirstLayerElement.cs" />
     <Compile Include="SigmoidActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrainingSet.cs" />
     <Compile Include="Weight.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

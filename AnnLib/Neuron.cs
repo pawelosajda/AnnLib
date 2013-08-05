@@ -9,18 +9,16 @@ namespace AnnLib
     /// <summary>
     /// Standard Neuron
     /// </summary>
-    class Neuron : Node
+    public class Neuron : FirstLayerElement
     {
         #region Fields
 
-        private IActivator activator;
+        private IActivator Activator;
 
-        private double pendingValue, pendingError;
-        private double inputSignal;
-        private int signals;
+        private double PendingValue, PendingError;
+        private int SignalCounter;
 
-        private Connection[] previousLayer;
-        private Connection[] nextLayer;
+        public Connection[] PreviousLayer;
 
         #endregion
         #region Constructors
@@ -39,7 +37,7 @@ namespace AnnLib
         /// <param name="activator">activation function</param>
         public Neuron(IActivator activator)
         {
-            this.activator = activator;
+            this.Activator = activator;
         }
 
         #endregion
@@ -47,34 +45,38 @@ namespace AnnLib
 
         public void Pulse(Connection sender, double value)
         {
-            pendingValue += sender.Calculate(value);
-            if (++signals < previousLayer.Length) {
+            PendingValue += sender.Weight.Value * value;
+
+            if (++SignalCounter < PreviousLayer.Length) {
                 return;
             }
-            signals = 0;
-            double output = activator.Activation(pendingValue);
-            inputSignal = pendingValue;
+            SignalCounter = 0;
 
-            foreach (Connection conn in nextLayer) {
-                conn.Destination.Pulse(conn, output);
+            double output = Activator.Calculate(PendingValue);
+            InputSignal = PendingValue;
+            OutputSignal = output;
+            if (NextLayer != null) {
+                foreach (Connection conn in NextLayer) {
+                    conn.Destination.Pulse(conn, output);
+                }
             }
+            PendingValue = 0;
         }
 
         public void BackProp(double error, double learnFactor, double momentum)
         {
-            pendingError += error;
-            if (++signals < nextLayer.Length) {
+            PendingError += error;
+            if (NextLayer != null && ++SignalCounter < NextLayer.Length) {
                 return;
             }
 
-            double gradient = activator.Gradient(inputSignal);
-            double delta = pendingError * gradient;
-            pendingError = signals = 0;
+            double delta = PendingError * Activator.Gradient(InputSignal);
+            PendingError = SignalCounter = 0;
 
-            foreach (Connection conn in previousLayer) {
-                conn.Weight.Correct(delta);
+            foreach (Connection conn in PreviousLayer) {
+                conn.Weight.Correct(delta * conn.Source.OutputSignal * learnFactor + momentum * conn.Weight.Change);
                 if (conn.Source is Neuron) {
-                    conn.Source.BackProp(delta * conn.Weight.Value, learnFactor, momentum);
+                    ((Neuron)conn.Source).BackProp(delta * conn.Weight.Value, learnFactor, momentum);
                 }
             }
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AnnLib
 {
-    class Connection
+    public class Connection
     {
         #region Fields
         /// <summary>
@@ -17,7 +17,7 @@ namespace AnnLib
         /// <summary>
         /// Source of the signal
         /// </summary>
-        public readonly Neuron Source;
+        public readonly FirstLayerElement Source;
 
         /// <summary>
         /// Destination of the signal
@@ -32,25 +32,23 @@ namespace AnnLib
         /// </summary>
         /// <param name="source">source neuron</param>
         /// <param name="destination">destination neuron</param>
+        public Connection(FirstLayerElement source, Neuron destination) 
+            : this(source, destination, new Weight())
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="source">source neuron</param>
+        /// <param name="destination">destination neuron</param>
         /// <param name="weight">weight of the connection</param>
-        public Connection(Neuron source, Neuron destination, Weight weight)
+        public Connection(FirstLayerElement source, Neuron destination, Weight weight)
         {
             this.Source = source;
             this.Destination = destination;
             this.Weight = weight;
-        }
-
-        #endregion
-        #region Public Methods
-
-        /// <summary>
-        /// Returns value of the connection
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public double Calculate(double value)
-        {
-            return Weight.Value * value;
         }
 
         #endregion

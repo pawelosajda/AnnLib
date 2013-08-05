@@ -39,7 +39,7 @@ namespace AnnLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public double Activation(double value)
+        public double Calculate(double value)
         {
             return 1 / (1 + Math.Pow(Math.E, -beta * value));
         }
@@ -51,7 +51,7 @@ namespace AnnLib
         /// <returns></returns>
         public double Gradient(double value)
         {
-            double activation = Activation(value);
+            double activation = Calculate(value);
             return beta * activation * (1 - activation);
         }
 

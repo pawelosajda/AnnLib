@@ -6,38 +6,47 @@ using System.Threading.Tasks;
 
 namespace AnnLib
 {
-    class NetworkStructure
+    public class NetworkStructure
     {
-        public Node[] elements;
-        public Node[][] layers;
-        public Bias bias;
+        #region Fields
+
+        public FirstLayerElement[] Elements;
+        public FirstLayerElement[][] Layers;
+        public Bias Bias;
 
         Neuron[] cache = null;
 
-        public Node[] getInput()
-        {
-            return layers[0];
+        public FirstLayerElement[] Input {
+            get { return Layers[0]; }
         }
 
-        public Neuron[] getOutput() 
-        {
-            if(cache == null) {
-                cache=layers[layers.Length-1].Select(x => (Neuron)x).ToArray();
+        public Neuron[] Output {
+            get
+            {
+                if (cache == null) {
+                    cache = Layers[Layers.Length - 1].Select(x => (Neuron)x).ToArray();
+                }
+                return cache;
             }
-            return cache;   
         }
 
-        public NetworkStructure(Node[][] layers, Bias bias) 
+        #endregion
+        #region Constructor
+
+        public NetworkStructure(FirstLayerElement[][] layers, Bias bias) 
         {  
-            this.layers = layers;
-            this.bias = bias;
-            this.elements = gather(layers, bias).ToArray();
+            this.Layers = layers;
+            this.Bias = bias;
+            this.Elements = gather(layers, bias).ToArray();
         }
 
-        private IEnumerable<Node> gather(Node[][] layers, Bias bias) 
+        #endregion
+
+
+        private IEnumerable<FirstLayerElement> gather(FirstLayerElement[][] layers, Bias bias) 
         {
-            foreach (Node[] layer in layers) {
-                foreach (Node link in layer) {
+            foreach (FirstLayerElement[] layer in layers) {
+                foreach (FirstLayerElement link in layer) {
                     yield return link;
                 }
             }
